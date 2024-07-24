@@ -35,6 +35,15 @@ const App = () => {
     }
   };
 
+  const deleteTodo = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/todos/${id}`);
+      setTodos(todos.filter((todo) => todo._id !== id));
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
   return (
     <div className="App">
       <h1>Todo List</h1>
@@ -55,7 +64,7 @@ const App = () => {
         />
       </div>
       <TodoForm addTodo={addTodo} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} deleteTodo={deleteTodo} />
     </div>
   );
 };
