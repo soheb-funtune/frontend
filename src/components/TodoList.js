@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "./styled-component/styled-componet";
 
 const TodoList = ({ todos, deleteTodo }) => {
   return (
@@ -7,7 +8,7 @@ const TodoList = ({ todos, deleteTodo }) => {
         <li key={todo._id}>
           {todo.task} - {todo.username} ({todo.email}) -{" "}
           {/* {todo.completed ? "Completed" : "Not Completed"} */}
-          <button onClick={() => deleteTodo(todo._id)}>Delete</button>
+          <Button onClick={() => deleteTodo(todo._id)}>Delete</Button>
         </li>
       ))}
     </ul>

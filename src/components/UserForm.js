@@ -1,34 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Button, Form, Input } from "./styled-component/styled-component";
 
 const UserForm = ({ addUser }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addUser(username, email);
-    setUsername("");
-    setEmail("");
+  const onSubmit = (data) => {
+    addUser(data.username, data.email);
+    reset();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        className="input-field"
         type="text"
         placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        required
+        {...register("username", { required: "Username is required" })}
       />
-      <input
+      {errors.username && <p>{errors.username.message}</p>}
+
+      <Input
+        className="input-field"
         type="email"
         placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
+        {...register("email", {
+          required: "Email is required",
+          pattern: { value: /^\S+@\S+$/i, message: "Invalid email format" },
+        })}
       />
-      <button type="submit">Add User</button>
-    </form>
+      {errors.email && <p>{errors.email.message}</p>}
+
+      <Button type="submit">Add User</Button>
+    </Form>
   );
 };
 
